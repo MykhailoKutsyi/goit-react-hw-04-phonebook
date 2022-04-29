@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import ContactForm from './ContactForm';
-import AddContacts from './ContactList';
-import Filter from './Filter';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
-
 import useLocalStorage from './useLocalStorage';
+
+import ContactForm from './components/ContactForm';
+import ContactList from './components/ContactList';
+import Filter from './components/Filter';
+
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export default function App() {
   const [contacts, setContacts] = useLocalStorage('contacts', [
@@ -16,11 +17,11 @@ export default function App() {
 
   const [filter, setFilter] = useState('');
 
-  function addContact(newContact) {
+  const addContact = newContact => {
     contacts.some(({ name }) => name === newContact.name)
       ? Notify.failure(`Contact ${newContact.name} already exists`)
-      : setContacts(state => [newContact, ...state]);
-  }
+      : setContacts(state => [...state, newContact]);
+  };
 
   const getFilterValue = e => {
     setFilter(e.currentTarget.value);
@@ -48,7 +49,7 @@ export default function App() {
       <ContactForm onSubmit={addContact} />
       <h1>Contacts</h1>
       <Filter value={filter} changeFilter={getFilterValue} />
-      <AddContacts contacts={filtered} onDeleteContact={deleteContact} />
+      <ContactList contacts={filtered} onDeleteContact={deleteContact} />
     </>
   );
 }
