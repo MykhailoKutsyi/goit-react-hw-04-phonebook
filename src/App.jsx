@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useLocalStorage from './useLocalStorage';
+import useLocalStorage from './hooks/useLocalStorage';
 
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
